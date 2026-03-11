@@ -1,0 +1,114 @@
+.historique-container {
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.historique-title {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px;
+  font-size: 1.1rem;
+}
+
+.fiches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fiche-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  transition: transform 0.2s ease;
+}
+
+.fiche-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-gv);
+}
+
+.fiche-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+.fiche-dossier {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.fiche-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.fiche-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-row .label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-row .value {
+  color: var(--text-main);
+  font-size: 1.05rem;
+}
+
+.info-row .strong { font-weight: 600; }
+
+.info-row .tag {
+  background-color: var(--input-bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+}
+
+.fiche-footer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge.success { background-color: rgba(16, 185, 129, 0.15); color: var(--accent-oui); }
+.badge.warning { background-color: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+.badge.danger { background-color: rgba(239, 68, 68, 0.15); color: var(--accent-non); }
