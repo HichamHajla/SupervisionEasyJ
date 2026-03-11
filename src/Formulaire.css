@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap');
 
 /* ==========================================================================
+   RESET & BOX-SIZING GLOBAL (Pour éviter tout débordement)
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
    VARIABLES ET THEMES
    ========================================================================== */
 
@@ -227,6 +234,13 @@ body {
   gap: 15px;
 }
 
+/* Responsive Grid pour Mobile */
+@media (max-width: 600px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ==========================================================================
    INPUTS & ERGONOMIE
    ========================================================================== */
@@ -248,6 +262,7 @@ input[type="number"],
 input[type="date"],
 input[type="time"],
 textarea {
+  width: 100%; /* Force les champs à ne pas déborder */
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
   color: var(--text-main);
@@ -595,150 +610,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow-y: auto;
 }
 
-/* Boutons d'action au dessus de la feuille */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: 210mm; /* Largeur A4 */
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.print-btn {
-  background: var(--accent-gv);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
-  transition: transform 0.2s;
-}
-.print-btn:hover { transform: translateY(-2px); }
-
-.close-btn { 
-  background: #FFFFFF; 
-  border: none;
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem; 
-  color: #111827; 
-  cursor: pointer; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* LA FEUILLE A4 */
-.a4-fiche {
-  background: #FFFFFF; /* Toujours blanc, même en mode sombre, c'est du papier ! */
-  color: #000000; /* Texte noir sur papier */
-  width: 100%;
-  max-width: 210mm; /* Largeur standard A4 */
-  min-height: 297mm; /* Hauteur standard A4 */
-  padding: 20mm; /* Marges du papier */
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  font-family: 'Inter', sans-serif;
-  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-/* En-tête du document */
-.doc-header {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 3px solid #000;
-  padding-bottom: 15px;
-  margin-bottom: 10px;
-}
-
-.doc-title h1 { margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #000; }
-.doc-title p { margin: 5px 0 0 0; font-size: 0.9rem; color: #555; font-weight: 600; }
-.doc-meta { text-align: right; font-size: 0.95rem; line-height: 1.5; }
-
-/* Titres de sections */
-.doc-section-title {
-  background: #f0f0f0;
-  padding: 8px 12px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  border-left: 4px solid #000;
-  margin-top: 10px;
-}
-
-/* Grilles d'informations */
-.doc-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-.doc-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; }
-.doc-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.doc-grid-1 { display: grid; grid-template-columns: 1fr; gap: 15px; }
-
-.doc-box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.box-label { font-size: 0.75rem; color: #666; text-transform: uppercase; }
-.box-value { font-weight: 700; font-size: 1.1rem; }
-.box-value.big { font-size: 1.4rem; font-family: 'Outfit', sans-serif; }
-.box-value.highlight { color: #003B95; } /* Bleu aéroport */
-
-.doc-check-row {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px dotted #ccc;
-  padding: 8px 0;
-  font-size: 0.95rem;
-}
-
-.alert-row { background: #fff5f5; padding: 10px; border: 1px solid #ffcccc; font-weight: 600; }
-
-.doc-remark-box {
-  border: 1px solid #ccc;
-  padding: 15px;
-  background: #fafafa;
-  min-height: 80px;
-}
-.doc-remark-box p { margin: 10px 0 0 0; font-family: 'Times New Roman', serif; font-size: 1.1rem; }
-.main-remark { flex-grow: 1; min-height: 150px; }
-
-@keyframes popIn { 
-  from { opacity: 0; transform: scale(0.95) translateY(20px); } 
-  to { opacity: 1; transform: scale(1) translateY(0); } 
-}
-
-/* ==========================================================================
-   MODALE - FICHE A4 & IMPRESSION
-   ========================================================================== */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  overflow-y: auto;
-}
-
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -748,8 +619,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 15px;
 }
 
+/* NOUVEAU BOUTON SUPPRIMER */
 .delete-btn {
-  background: var(--accent-non); /* Le rouge de notre thème */
+  background: var(--accent-non); 
   color: white;
   border: none;
   padding: 10px 20px;
@@ -765,7 +637,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .delete-btn:hover { 
   transform: translateY(-2px); 
-  background: #DC2626; /* Un rouge un peu plus foncé au survol */
+  background: #DC2626; 
 }
 
 .print-btn {
@@ -932,12 +804,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid #ccc;
   padding: 15px;
   background: #fafafa;
-  min-height: 80px;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-/* Police Inter rétablie pour les remarques */
+/* Police Inter rétablie pour les remarques et flex-grow supprimé ! */
 .doc-remark-box p { 
   margin: 10px 0 0 0; 
   font-family: 'Inter', sans-serif; 
@@ -945,14 +816,52 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #111827; 
   line-height: 1.5;
 }
-/* On supprime le flex-grow qui faisait exploser la page vers le bas */
 .main-remark { 
-  min-height: 100px; 
+  min-height: 100px; /* Plus de flex-grow infini ! */ 
 }
 
 @keyframes popIn { 
   from { opacity: 0; transform: scale(0.95) translateY(20px); } 
   to { opacity: 1; transform: scale(1) translateY(0); } 
+}
+
+/* ==========================================================================
+   MÉDIAS QUERIES - RESPONSIVE MOBILE POUR HISTORIQUE ET FICHE A4
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Cartes de l'historique sur mobile */
+  .premium-card-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+  }
+  .airport-gate {
+    justify-self: center;
+  }
+  
+  /* Ajustement de la fiche A4 sur petit écran */
+  .a4-fiche {
+    padding: 15px; /* Moins de marge blanche sur mobile */
+    min-height: auto;
+  }
+  .doc-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  .doc-meta {
+    text-align: center;
+  }
+  .doc-grid-3, .doc-grid-4, .doc-grid-2 {
+    grid-template-columns: 1fr; /* On empile tout sur une colonne */
+  }
+  .box-value.highlight-gate {
+    align-self: center; /* Centrer le badge Gate sur mobile */
+  }
+  .modal-actions {
+    flex-wrap: wrap; /* Les boutons s'empilent si l'écran est trop étroit */
+    justify-content: center;
+  }
 }
 
 /* ==========================================================================
@@ -979,15 +888,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     animation: none;
   }
   
-  /* Sécurité supplémentaire pour l'imprimante sur nos couleurs vitale */
   .box-value.highlight-gate { background-color: #003B95 !important; color: #FFFFFF !important; }
   .doc-badge-oui { background-color: rgba(16, 185, 129, 0.15) !important; color: #10B981 !important; }
   .doc-badge-non { background-color: rgba(239, 68, 68, 0.15) !important; color: #EF4444 !important; }
   .doc-section-title { background-color: #f0f0f0 !important; }
   .tobt-box { background-color: #f9f9f9 !important; }
-}
-
-@keyframes popIn { 
-  from { opacity: 0; transform: scale(0.95) translateY(10px); } 
-  to { opacity: 1; transform: scale(1) translateY(0); } 
 }
