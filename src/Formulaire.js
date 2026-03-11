@@ -39,7 +39,23 @@ export default function Formulaire() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from('fiches_coordination').insert([formData]);
+    // --- LE FILTRE MAGIQUE EST ICI ---
+    // On crée une copie des données pour les nettoyer avant l'envoi
+    const payload = { ...formData };
+
+    // Supabase n'accepte pas "" pour les champs numériques (integer). 
+    // On remplace les champs vides par 'null'.
+    if (payload.nombre_bus === '') payload.nombre_bus = null;
+    if (payload.nombre_clients === '') payload.nombre_clients = null;
+    if (payload.temps_attente_min === '') payload.temps_attente_min = null;
+    
+    // NB: Si ton champ "Dossier" est aussi configuré en "integer" (nombre) dans Supabase,
+    // on lui applique le même traitement de sécurité.
+    if (payload.dossier === '') payload.dossier = null;
+
+    // --- FIN DU FILTRE ---
+
+    const { error } = await supabase.from('fiches_coordination').insert([payload]);
 
     if (error) {
       alert("Erreur : " + error.message);
