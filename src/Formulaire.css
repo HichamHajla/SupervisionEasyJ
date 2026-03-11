@@ -167,7 +167,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
-  min-width: 0; /* LE SECRET EST LÀ : Empêche l'input de déborder du grid */
+  min-width: 0; /* Empêche l'input de déborder du grid */
   width: 100%;
 }
 
@@ -185,8 +185,8 @@ input[type="number"],
 input[type="date"],
 input[type="time"],
 textarea {
-  box-sizing: border-box; /* Sécurité maximale */
-  width: 100%; /* Remplir exactement la boîte parent */
+  box-sizing: border-box;
+  width: 100%; 
   max-width: 100%;
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
@@ -195,8 +195,16 @@ textarea {
   border-radius: 8px;
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
-  -webkit-appearance: none; /* Désactive les styles bizarres par défaut d'Apple */
+  -webkit-appearance: none; 
   appearance: none;
+  min-height: 46px; /* Force toutes les bulles à faire exactement la même taille */
+  line-height: 1.5; /* Centre parfaitement le texte à l'intérieur */
+}
+
+input[type="date"],
+input[type="time"] {
+  display: flex;
+  align-items: center; /* Force l'alignement vertical sur Safari Mobile */
 }
 
 input:focus, textarea:focus {
