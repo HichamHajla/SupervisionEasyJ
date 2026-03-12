@@ -156,11 +156,6 @@ body {
   gap: 15px;
 }
 
-/* On utilise 'screen and' pour que l'imprimante IGNORE cette règle mobile */
-@media screen and (max-width: 650px) {
-  .grid-2 { grid-template-columns: 1fr; }
-}
-
 /* ==========================================================================
    INPUTS & ERGONOMIE
    ========================================================================== */
@@ -258,6 +253,7 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   width: 100%; background-color: var(--accent-gv); color: white; border: none; padding: 16px;
   border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 .btn-primary:active { transform: scale(0.98); }
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -270,6 +266,100 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 .success-card { background-color: var(--card-bg); padding: 40px; border-radius: 16px; text-align: center; border: 1px solid rgba(16, 185, 129, 0.3); }
 .success-card h2 { color: var(--accent-oui); margin-top: 0; }
 .success-card p { color: var(--text-muted); margin-bottom: 30px; }
+
+/* ==========================================================================
+   PAGE DE LOGIN (BLINDAGE ANTI-SAFARI IPAD)
+   ========================================================================== */
+.login-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-box-strict {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
+  
+  /* C'est ici que l'iPad bloquait ! Ces trois lignes forcent la taille : */
+  width: 100%;
+  max-width: 400px;
+  flex: 0 1 400px; 
+  
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  margin: 0 auto;
+}
+
+.login-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  color: var(--text-main);
+  text-align: center;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+.login-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--accent-non);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.login-form .btn-primary {
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   BOUTON DE DÉCONNEXION (EN BAS DE PAGE)
+   ========================================================================== */
+.logout-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.logout-btn-bottom {
+  background-color: var(--card-bg);
+  color: var(--accent-non);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.logout-btn-bottom:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--accent-non);
+}
 
 /* ==========================================================================
    HISTORIQUE (DESIGN PREMIUM)
@@ -370,109 +460,6 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 
 @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-/* MÉDIAS QUERIES - RESPONSIVE MOBILE (On utilise "screen and" pour ne pas casser l'impression) */
-@media screen and (max-width: 768px) {
-  .premium-card-top { grid-template-columns: 1fr; text-align: center; gap: 10px; }
-  .airport-gate { justify-self: center; }
-  .a4-fiche { padding: 15px; min-height: auto; }
-  .doc-header { flex-direction: column; gap: 15px; text-align: center; }
-  .doc-meta { text-align: center; }
-  .doc-grid-3, .doc-grid-4, .doc-grid-2 { grid-template-columns: 1fr; }
-  .box-value.highlight-gate { align-self: center; }
-  .modal-actions { flex-wrap: wrap; justify-content: center; }
-
-  /* ==========================================================================
-   PAGE DE CONNEXION (LOGIN)
-   ========================================================================== */
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.login-box {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 40px;
-  width: 100%;
-  max-width: 400px !important; /* Force Safari à respecter la limite */
-  box-sizing: border-box; /* Empêche les débordements */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  margin: auto; /* Sécurité supplémentaire pour le centrage */
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.login-header h1 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.8rem;
-  color: var(--text-main);
-  margin: 0 0 5px 0;
-}
-
-.login-header p {
-  color: var(--text-muted);
-  margin: 0;
-  font-weight: 500;
-}
-
-.login-error {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: var(--accent-non);
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  text-align: center;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-}
-}
-
-/* ==========================================================================
-   BOUTON DE DÉCONNEXION (EN BAS DE PAGE)
-   ========================================================================== */
-.logout-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 40px;
-  padding-bottom: 20px;
-  border-top: 1px solid var(--border-color); /* Petite ligne de séparation discrète */
-  padding-top: 20px;
-}
-
-.login-form .btn-primary {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.logout-btn-bottom {
-  background-color: var(--card-bg);
-  color: var(--accent-non); /* ROUGE directement */
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-}
-
-.logout-btn-bottom:hover {
-  background-color: rgba(239, 68, 68, 0.1);
-  border-color: var(--accent-non);
-}
-
 /* ==========================================================================
    PAGINATION PAR MOIS (HISTORIQUE)
    ========================================================================== */
@@ -532,11 +519,27 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   letter-spacing: 0.5px;
 }
 
-/* Version compacte pour mobile / tablettes */
-@media (max-width: 600px) {
+/* ==========================================================================
+   MÉDIAS QUERIES - RESPONSIVE MOBILE (Regroupé tout à la fin)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  
+  .premium-card-top { grid-template-columns: 1fr; text-align: center; gap: 10px; }
+  .airport-gate { justify-self: center; }
+  
+  .a4-fiche { padding: 15px; min-height: auto; }
+  .doc-header { flex-direction: column; gap: 15px; text-align: center; }
+  .doc-meta { text-align: center; }
+  .doc-grid-3, .doc-grid-4, .doc-grid-2 { grid-template-columns: 1fr; }
+  .box-value.highlight-gate { align-self: center; }
+  .modal-actions { flex-wrap: wrap; justify-content: center; }
+}
+
+@media screen and (max-width: 600px) {
   .month-pagination { padding: 10px 15px; }
   .nav-btn { padding: 10px; border-radius: 10px; }
-  .nav-btn-text { display: none; } /* On cache le texte, on garde que la flèche ! */
+  .nav-btn-text { display: none; }
   .month-display { font-size: 1.1rem; }
 }
 
@@ -554,7 +557,7 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   body { background-color: #FFF !important; margin: 0 !important; padding: 0 !important; }
   .app-wrapper { overflow: visible !important; }
 
-  /* On "décroche" la modale pour l'imprimante (C'était ça le bug qui coupait la page !) */
+  /* On "décroche" la modale pour l'imprimante */
   .modal-overlay { 
     position: absolute !important; 
     top: 0 !important; 
@@ -572,13 +575,13 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
     left: 0 !important; 
     top: 0 !important; 
     width: 210mm !important;
-    height: 296mm !important; /* On triche de 1mm pour éviter une page blanche à la fin */
+    height: 296mm !important; 
     margin: 0 !important; 
-    padding: 12mm 15mm !important; /* Marges un peu réduites pour que tout rentre */
+    padding: 12mm 15mm !important; 
     box-shadow: none !important; 
     border: none !important; 
     animation: none !important;
-    overflow: hidden !important; /* Interdit formellement de déborder sur la page 2 */
+    overflow: hidden !important; 
   }
   
   /* On force le respect des couleurs */
