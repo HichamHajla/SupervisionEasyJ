@@ -398,8 +398,10 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 400px;
+  max-width: 400px !important; /* Force Safari à respecter la limite */
+  box-sizing: border-box; /* Empêche les débordements */
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  margin: auto; /* Sécurité supplémentaire pour le centrage */
 }
 
 .login-header {
@@ -442,6 +444,11 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   padding-bottom: 20px;
   border-top: 1px solid var(--border-color); /* Petite ligne de séparation discrète */
   padding-top: 20px;
+}
+
+.login-form .btn-primary {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .logout-btn-bottom {
