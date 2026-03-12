@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { supabase } from './supabaseClient';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [identifiant, setIdentifiant] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -12,8 +12,15 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
+    // 1. NOTRE LOGIQUE D'AJOUT AUTOMATIQUE (qui va enfin pouvoir s'exécuter !)
+    let finalEmail = identifiant.trim();
+    if (!finalEmail.includes('@')) {
+      finalEmail = finalEmail + '@gvapp.com'; 
+    }
+
+    // 2. ENVOI À SUPABASE
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: finalEmail,
       password,
     });
 
@@ -34,11 +41,14 @@ export default function Login() {
         <form onSubmit={handleLogin} className="login-form">
           <div className="ui-group">
             <label>Identifiant</label>
+            {/* LE FIX EST ICI : type="text" au lieu de "email" + désactivation majuscules */}
             <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              type="text" 
+              value={identifiant} 
+              onChange={(e) => setIdentifiant(e.target.value)} 
               required 
+              autoCapitalize="none" 
+              autoCorrect="off"
             />
           </div>
           <div className="ui-group">
