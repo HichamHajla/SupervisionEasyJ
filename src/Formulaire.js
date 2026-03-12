@@ -17,7 +17,7 @@ export default function Formulaire() {
     nombre_bus: '', nombre_clients: '', heure_tobt: '',
     heure_arrivee_agent: '', speedy_boarding: null, bon_deroulement: null,
     debut_chargement: '', contact_radio: null, probleme_avion: null,
-    remarque_probleme: '', depart_premier_bus: '', attente_avion: null,
+    depart_premier_bus: '', attente_avion: null,
     temps_attente_min: '', plm: null, retard_depart: null,
     ir_87: null, remarque_globale: ''
   });
@@ -39,21 +39,12 @@ export default function Formulaire() {
     e.preventDefault();
     setLoading(true);
 
-    // --- LE FILTRE MAGIQUE EST ICI ---
-    // On crée une copie des données pour les nettoyer avant l'envoi
     const payload = { ...formData };
 
-    // Supabase n'accepte pas "" pour les champs numériques (integer). 
-    // On remplace les champs vides par 'null'.
     if (payload.nombre_bus === '') payload.nombre_bus = null;
     if (payload.nombre_clients === '') payload.nombre_clients = null;
     if (payload.temps_attente_min === '') payload.temps_attente_min = null;
-    
-    // NB: Si ton champ "Dossier" est aussi configuré en "integer" (nombre) dans Supabase,
-    // on lui applique le même traitement de sécurité.
     if (payload.dossier === '') payload.dossier = null;
-
-    // --- FIN DU FILTRE ---
 
     const { error } = await supabase.from('fiches_coordination').insert([payload]);
 
@@ -66,23 +57,40 @@ export default function Formulaire() {
     setLoading(false);
   };
 
-  const renderOuiNon = (name, label) => (
-    <div className="ui-group">
-      <label>{label}</label>
-      <div className="toggle-container">
-        <button 
-          type="button" 
-          className={`toggle-btn ${formData[name] === true ? 'active-oui' : ''}`}
-          onClick={() => handleToggle(name, true)}
-        >OUI</button>
-        <button 
-          type="button" 
-          className={`toggle-btn ${formData[name] === false ? 'active-non' : ''}`}
-          onClick={() => handleToggle(name, false)}
-        >NON</button>
+  // NOUVELLE LOGIQUE DE COULEURS INTELLIGENTE
+  const renderOuiNon = (name, label) => {
+    let ouiClass = 'active-oui'; // Vert par défaut
+    let nonClass = 'active-non'; // Rouge par défaut
+
+    // Inversion des couleurs pour les alertes graves
+    if (['probleme_avion', 'retard_depart', 'ir_87'].includes(name)) {
+      ouiClass = 'active-non'; // OUI = Rouge
+      nonClass = 'active-oui'; // NON = Vert
+    } 
+    // Couleur orange pour les alertes moyennes
+    else if (['attente_avion', 'plm'].includes(name)) {
+      ouiClass = 'active-warning'; // OUI = Orange
+      nonClass = 'active-oui';     // NON = Vert
+    }
+
+    return (
+      <div className="ui-group">
+        <label>{label}</label>
+        <div className="toggle-container">
+          <button 
+            type="button" 
+            className={`toggle-btn ${formData[name] === true ? ouiClass : ''}`}
+            onClick={() => handleToggle(name, true)}
+          >OUI</button>
+          <button 
+            type="button" 
+            className={`toggle-btn ${formData[name] === false ? nonClass : ''}`}
+            onClick={() => handleToggle(name, false)}
+          >NON</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (success) {
     return (
@@ -169,7 +177,6 @@ export default function Formulaire() {
           </div>
           
           {renderOuiNon('speedy_boarding', 'Échange avec le chauffeur pour les speedy-boarding')}
-          {renderOuiNon('bon_deroulement', 'Bon déroulement')}
           
           <div className="ui-group">
             <label>Début chargement</label>
@@ -179,12 +186,6 @@ export default function Formulaire() {
           {renderOuiNon('contact_radio', 'Contacte avec radio à l’avion avant départ premier bus')}
           
           {renderOuiNon('probleme_avion', 'Problème à l’avion')}
-          {formData.probleme_avion === true && (
-            <div className="ui-group animate-in sub-input">
-              <label>Case remarque (Problème)</label>
-              <input type="text" name="remarque_probleme" onChange={handleChange} placeholder="Précisez le problème..." />
-            </div>
-          )}
 
           <div className="ui-group">
             <label>Départ premier bus heure</label>
@@ -199,8 +200,11 @@ export default function Formulaire() {
             </div>
           )}
 
-          {renderOuiNon('plm', 'Plm')}
+          {renderOuiNon('plm', 'PLM')}
           {renderOuiNon('retard_depart', 'Retard Départ heure avion')}
+          
+          {/* Bon déroulement déplacé ici, juste avant IR 87 */}
+          {renderOuiNon('bon_deroulement', 'Bon déroulement')}
           {renderOuiNon('ir_87', 'IR 87')}
           
           <div className="ui-group mt-4">

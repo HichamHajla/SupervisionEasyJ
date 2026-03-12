@@ -38,7 +38,7 @@
   background-color: var(--bg-main);
   min-height: 100vh;
   transition: background-color 0.3s ease;
-  overflow-x: hidden; /* Empêche le scroll horizontal sur mobile */
+  overflow-x: hidden; 
 }
 
 body {
@@ -142,7 +142,7 @@ body {
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-  width: 100%; /* Sécurité iPad */
+  width: 100%; 
 }
 
 .card-title {
@@ -152,22 +152,23 @@ body {
 
 .grid-2 {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* FORCER LA LIMITE DE LARGEUR SUR iPAD */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); 
   gap: 15px;
 }
 
-@media (max-width: 650px) {
+/* On utilise 'screen and' pour que l'imprimante IGNORE cette règle mobile */
+@media screen and (max-width: 650px) {
   .grid-2 { grid-template-columns: 1fr; }
 }
 
 /* ==========================================================================
-   INPUTS & ERGONOMIE (CORRECTIONS IPAD & MOBILE)
+   INPUTS & ERGONOMIE
    ========================================================================== */
 .ui-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
-  min-width: 0; /* Empêche l'input de déborder du grid */
+  min-width: 0; 
   width: 100%;
 }
 
@@ -176,11 +177,13 @@ body {
   color: var(--text-muted);
   margin-bottom: 8px;
   font-weight: 600;
-  word-wrap: break-word; /* Permet aux textes longs de passer à la ligne */
+  word-wrap: break-word; 
   white-space: normal;
 }
 
 input[type="text"],
+input[type="password"],
+input[type="email"],
 input[type="number"],
 input[type="date"],
 input[type="time"],
@@ -197,14 +200,14 @@ textarea {
   font-family: 'Inter', sans-serif;
   -webkit-appearance: none; 
   appearance: none;
-  min-height: 46px; /* Force toutes les bulles à faire exactement la même taille */
-  line-height: 1.5; /* Centre parfaitement le texte à l'intérieur */
+  min-height: 46px; 
+  line-height: 1.5; 
 }
 
 input[type="date"],
 input[type="time"] {
   display: flex;
-  align-items: center; /* Force l'alignement vertical sur Safari Mobile */
+  align-items: center; 
 }
 
 input:focus, textarea:focus {
@@ -219,19 +222,14 @@ input:focus, textarea:focus {
   border-left: 2px solid var(--border-color);
 }
 
-/* Hack Time/Date pour Mobile/Tablet */
-input[type="time"], input[type="date"] {
-  cursor: pointer; position: relative;
-}
+input[type="time"], input[type="date"] { cursor: pointer; position: relative; }
 input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
   width: 100%; height: 100%; color: transparent; background: transparent; cursor: pointer; z-index: 10;
 }
 
 /* CARROUSEL GATES */
-.gate-carousel {
-  display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; 
-}
+.gate-carousel { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; scrollbar-width: none; }
 .gate-carousel::-webkit-scrollbar { display: none; }
 .gate-chip {
   flex: 0 0 auto; padding: 12px 20px; border-radius: 8px; background-color: var(--input-bg);
@@ -242,15 +240,9 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 
 /* BOUTONS OUI / NON */
 .toggle-container {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--toggle-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  overflow: hidden;
+  display: flex; width: 100%; box-sizing: border-box; background-color: var(--toggle-bg);
+  border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;
 }
-
 .toggle-btn {
   flex: 1; padding: 12px; background: transparent; border: none; color: var(--text-muted);
   font-weight: 600; font-size: 0.95rem; cursor: pointer; text-align: center;
@@ -258,6 +250,7 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 .toggle-btn:first-child { border-right: 1px solid var(--border-color); }
 .toggle-btn.active-oui { background-color: rgba(16, 185, 129, 0.15); color: var(--accent-oui); }
 .toggle-btn.active-non { background-color: rgba(239, 68, 68, 0.15); color: var(--accent-non); }
+.toggle-btn.active-warning { background-color: rgba(245, 158, 11, 0.15); color: #F59E0B; }
 
 /* BOUTON VALIDATION */
 .action-bar { margin-top: 30px; margin-bottom: 20px; display: flex; justify-content: center; }
@@ -277,7 +270,6 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 .success-card { background-color: var(--card-bg); padding: 40px; border-radius: 16px; text-align: center; border: 1px solid rgba(16, 185, 129, 0.3); }
 .success-card h2 { color: var(--accent-oui); margin-top: 0; }
 .success-card p { color: var(--text-muted); margin-bottom: 30px; }
-
 
 /* ==========================================================================
    HISTORIQUE (DESIGN PREMIUM)
@@ -313,10 +305,19 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 .alert-badge.danger { background-color: rgba(239, 68, 68, 0.15); color: var(--accent-non); }
 
 /* ==========================================================================
-   MODALE - FICHE A4 & IMPRESSION
+   MODALE - FICHE A4
    ========================================================================== */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 10000; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; overflow-y: auto; }
-.modal-actions { display: flex; justify-content: flex-end; width: 100%; max-width: 210mm; gap: 15px; margin-bottom: 15px; }
+.modal-overlay { 
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+  background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); 
+  z-index: 10000; display: flex; flex-direction: column; align-items: center; 
+  padding: 40px 20px; overflow-y: auto; 
+}
+
+.modal-actions { 
+  display: flex; justify-content: flex-end; width: 100%; max-width: 210mm; 
+  gap: 15px; margin-bottom: 15px; flex-shrink: 0; 
+}
 
 .delete-btn { background: var(--accent-non); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); transition: transform 0.2s, background 0.2s; }
 .delete-btn:hover { transform: translateY(-2px); background: #DC2626; }
@@ -326,7 +327,14 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 
 .close-btn { background: #FFFFFF; border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #111827; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-.a4-fiche { background: #FFFFFF; color: #000000; width: 100%; max-width: 210mm; min-height: 297mm; padding: 20mm; box-shadow: 0 20px 50px rgba(0,0,0,0.5); box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; font-family: 'Inter', sans-serif; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.a4-fiche { 
+  background: #FFFFFF; color: #000000; width: 100%; max-width: 210mm; min-height: 297mm; 
+  padding: 20mm; box-shadow: 0 20px 50px rgba(0,0,0,0.5); box-sizing: border-box; 
+  display: flex; flex-direction: column; gap: 20px; font-family: 'Inter', sans-serif; 
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+  flex-shrink: 0; margin-bottom: 40px;
+}
+
 .doc-header { display: flex; justify-content: space-between; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 10px; }
 .doc-title h1 { margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #000; }
 .doc-title p { margin: 5px 0 0 0; font-size: 0.9rem; color: #555; font-weight: 600; }
@@ -351,6 +359,7 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 
 .doc-badge-oui { background-color: rgba(16, 185, 129, 0.15); color: #10B981; padding: 4px 10px; border-radius: 6px; font-weight: 700; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .doc-badge-non { background-color: rgba(239, 68, 68, 0.15); color: #EF4444; padding: 4px 10px; border-radius: 6px; font-weight: 700; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.doc-badge-warning { background-color: rgba(245, 158, 11, 0.15) !important; color: #F59E0B !important; padding: 4px 10px; border-radius: 6px; font-weight: 700; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
 .doc-check-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dotted #ccc; padding: 8px 0; font-size: 0.95rem; }
 .alert-row { background: #fff5f5; padding: 10px; border: 1px solid #ffcccc; font-weight: 600; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -361,8 +370,8 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
 
 @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-/* MÉDIAS QUERIES - RESPONSIVE MOBILE POUR HISTORIQUE ET FICHE A4 */
-@media (max-width: 768px) {
+/* MÉDIAS QUERIES - RESPONSIVE MOBILE (On utilise "screen and" pour ne pas casser l'impression) */
+@media screen and (max-width: 768px) {
   .premium-card-top { grid-template-columns: 1fr; text-align: center; gap: 10px; }
   .airport-gate { justify-self: center; }
   .a4-fiche { padding: 15px; min-height: auto; }
@@ -371,18 +380,206 @@ input[type="time"]::-webkit-calendar-picker-indicator, input[type="date"]::-webk
   .doc-grid-3, .doc-grid-4, .doc-grid-2 { grid-template-columns: 1fr; }
   .box-value.highlight-gate { align-self: center; }
   .modal-actions { flex-wrap: wrap; justify-content: center; }
+
+  /* ==========================================================================
+   PAGE DE CONNEXION (LOGIN)
+   ========================================================================== */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-/* IMPRESSION MAGIQUES (@media print) */
+.login-box {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  color: var(--text-main);
+  margin: 0 0 5px 0;
+}
+
+.login-header p {
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 500;
+}
+
+.login-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--accent-non);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+}
+
+/* ==========================================================================
+   BOUTON DE DÉCONNEXION (EN BAS DE PAGE)
+   ========================================================================== */
+.logout-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--border-color); /* Petite ligne de séparation discrète */
+  padding-top: 20px;
+}
+
+.logout-btn-bottom {
+  background-color: var(--card-bg);
+  color: var(--accent-non); /* ROUGE directement */
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.logout-btn-bottom:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--accent-non);
+}
+
+/* ==========================================================================
+   PAGINATION PAR MOIS (HISTORIQUE)
+   ========================================================================== */
+.month-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 12px 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.month-pagination.bottom {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background-color: var(--accent-gv);
+  color: white;
+  border-color: var(--accent-gv);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+.month-display {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Version compacte pour mobile / tablettes */
+@media (max-width: 600px) {
+  .month-pagination { padding: 10px 15px; }
+  .nav-btn { padding: 10px; border-radius: 10px; }
+  .nav-btn-text { display: none; } /* On cache le texte, on garde que la flèche ! */
+  .month-display { font-size: 1.1rem; }
+}
+
+/* ==========================================================================
+   IMPRESSION MAGIQUES (@media print) - LE FIX DEFINITIF 1 SEULE PAGE
+   ========================================================================== */
 @media print {
-  @page { size: A4; margin: 0; }
+  @page { size: A4 portrait; margin: 0; }
+  
+  /* On cache absolument tout l'arrière-plan du site */
   body * { visibility: hidden; }
   .hide-on-print { display: none !important; }
+
+  /* On nettoie le body */
+  body { background-color: #FFF !important; margin: 0 !important; padding: 0 !important; }
+  .app-wrapper { overflow: visible !important; }
+
+  /* On "décroche" la modale pour l'imprimante (C'était ça le bug qui coupait la page !) */
+  .modal-overlay { 
+    position: absolute !important; 
+    top: 0 !important; 
+    left: 0 !important; 
+    background: transparent !important; 
+    padding: 0 !important; 
+  }
+  
+  /* On rallume la lumière uniquement sur la fiche */
   .a4-fiche, .a4-fiche * { visibility: visible; }
-  .a4-fiche { position: absolute; left: 0; top: 0; width: 210mm; min-height: 297mm; margin: 0; padding: 15mm; box-shadow: none; border: none; animation: none; }
+
+  /* On force les dimensions exactes d'une feuille A4 */
+  .a4-fiche { 
+    position: absolute !important; 
+    left: 0 !important; 
+    top: 0 !important; 
+    width: 210mm !important;
+    height: 296mm !important; /* On triche de 1mm pour éviter une page blanche à la fin */
+    margin: 0 !important; 
+    padding: 12mm 15mm !important; /* Marges un peu réduites pour que tout rentre */
+    box-shadow: none !important; 
+    border: none !important; 
+    animation: none !important;
+    overflow: hidden !important; /* Interdit formellement de déborder sur la page 2 */
+  }
+  
+  /* On force le respect des couleurs */
   .box-value.highlight-gate { background-color: #003B95 !important; color: #FFFFFF !important; }
   .doc-badge-oui { background-color: rgba(16, 185, 129, 0.15) !important; color: #10B981 !important; }
   .doc-badge-non { background-color: rgba(239, 68, 68, 0.15) !important; color: #EF4444 !important; }
   .doc-section-title { background-color: #f0f0f0 !important; }
   .tobt-box { background-color: #f9f9f9 !important; }
+  .alert-row { background: #fff5f5 !important; border-color: #ffcccc !important; }
+  .doc-remark-box { background: #fafafa !important; }
 }
